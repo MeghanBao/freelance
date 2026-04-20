@@ -123,7 +123,10 @@
     section { padding: 3rem 1.5rem; }
     .sec-header, .skills-grid, .exp-item, .project-item, .lang-row { grid-template-columns: 1fr; gap: 1rem; }
     .contact-block { grid-template-columns: 1fr; gap: 2rem; }
-    .services-table .td-stack, .services-table .td-rate { display: none; }
+    .services-table, .services-table tbody, .services-table tr, .services-table td { display: block; width: 100%; box-sizing: border-box; }
+    .services-table tr { padding: 1.5rem 0; border-top: 1px solid var(--rule); }
+    .services-table td { padding: 0.25rem 0; width: 100% !important; border: none; }
+    .services-table .td-stack, .services-table .td-rate { display: block; text-align: left; }
     footer { flex-direction: column; gap: 0.5rem; }
   }
 </style>
@@ -162,7 +165,7 @@ auf Deutsch, Englisch und Chinesisch.</p>
       <div>Menghan Bao</div>
       <div style="font-style:italic;color:#0d0d0d;font-family:'EB Garamond',serif;font-size:13px;">(Amarsaihan Borjigin)</div>
       <div style="margin-top:0.5rem;">Munich / NRW, Germany</div>
-      <div><a href="/cdn-cgi/l/email-protection#4a272f242d222b24282b257b0a2d272b232664292527"><span class="__cf_email__" data-cfemail="4e232b2029262f202c2f217f0e29232f2722602d2123">[email&#160;protected]</span></a></div>
+      <div><a href="mailto:menghanbao1@gmail.com">menghanbao1@gmail.com</a></div>
       <div><a href="tel:+4915223458476">+49 152 2345 8476</a></div>
     </div>
   </div>
@@ -179,25 +182,30 @@ auf Deutsch, Englisch und Chinesisch.</p>
       <td class="td-name"><em>AI & LLM Integration</em></td>
       <td class="td-desc">Prompt Engineering, RAG-Systeme, LLM-Automatisierung. Klinische und domänenspezifische KI-Prototypen mit Anthropic/OpenAI SDK. <em style="color:#aaa">· LLM-powered automation, RAG, domain AI prototypes.</em></td>
       <td class="td-stack">Python<br>Anthropic SDK<br>LangChain<br>REST APIs</td>
-      <td class="td-rate">from €90/hr</td>
+      <td class="td-rate">€75–90/hr</td>
     </tr>
     <tr>
       <td class="td-name"><em>Data Analysis & ML</em></td>
       <td class="td-desc">Statistische Modellierung, Paneldatenmodelle (FE/RE), Propensity Score Matching, ML-Pipelines. <em style="color:#aaa">· Statistical modelling, ML pipelines, data visualisation.</em></td>
       <td class="td-stack">Python<br>R / plm<br>SmartPLS<br>Docker</td>
-      <td class="td-rate">from €80/hr</td>
+      <td class="td-rate">€55–65/hr</td>
     </tr>
     <tr>
       <td class="td-name"><em>Full-Stack Development</em></td>
       <td class="td-desc">Web-Apps, Dashboards und interne Tools — von WordPress bis React/Node.js. Sauberer, wartbarer Code. <em style="color:#aaa">· Full stack from WordPress to React/Node.js.</em></td>
       <td class="td-stack">React<br>Node.js<br>PostgreSQL<br>TypeScript</td>
-      <td class="td-rate">from €75/hr</td>
+      <td class="td-rate">€65–75/hr</td>
     </tr>
     <tr>
       <td class="td-name"><em>Technical Consulting</em></td>
       <td class="td-desc">Architektur-Review, Stack-Auswahl, Brücke zwischen Technik und Stakeholdern. Auf Deutsch, Englisch und Chinesisch. <em style="color:#aaa">· Tech consulting in DE / EN / ZH.</em></td>
       <td class="td-stack">DE · EN · ZH<br>JA · KO</td>
-      <td class="td-rate">from €85/hr</td>
+      <td class="td-rate">€55–65/hr</td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-top: 1rem; font-size: 0.85em; color: var(--gray); text-align: left;">
+        <em>* Festpreisprojekte (Fixed project pricing): Stundensatz (Hourly rate) × 1.3</em>
+      </td>
     </tr>
   </table>
 </section>
@@ -250,7 +258,7 @@ auf Deutsch, Englisch und Chinesisch.</p>
         <p class="proj-desc">Vollständig lokale Pipeline zur deutschen Dokumentenverarbeitung: OCR → Klassifikation → Datumsextraktion → Archivierung. Streamlit-UI, Docker, GitHub Actions CI, 228 Unit-Tests. <em style="color:#aaa">Fully local German document OCR pipeline · 228 unit tests · bilingual docs.</em></p>
         <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Tesseract</span><span class="proj-tag">Streamlit</span><span class="proj-tag">Docker</span><span class="proj-tag">GitHub Actions</span></div>
       </div>
-      <a class="proj-link" href="https://github.com/MeghanBao" target="_blank">GitHub ↗</a>
+      <a class="proj-link" href="https://github.com/MeghanBao/Documentation-AI-Pipeline" target="_blank">GitHub ↗</a>
     </div>
     <div class="project-item">
       <div class="proj-meta">2025<br>Python<br>Multi-agent</div>
@@ -259,7 +267,7 @@ auf Deutsch, Englisch und Chinesisch.</p>
         <p class="proj-desc">Pure Python multi-agent CLI system for automating the German Freelance Visa process. Four specialist agents plus an orchestrator, using the Anthropic SDK directly — no LangGraph, no CrewAI. PostgreSQL shared state, Typer/Pydantic/Rich stack.</p>
         <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">Anthropic SDK</span><span class="proj-tag">PostgreSQL</span><span class="proj-tag">Pydantic</span></div>
       </div>
-      <a class="proj-link" href="https://github.com/MeghanBao" target="_blank">GitHub ↗</a>
+      <a class="proj-link" href="https://github.com/MeghanBao/freelancer-visa-agent-de" target="_blank">GitHub ↗</a>
     </div>
     <div class="project-item">
       <div class="proj-meta">2025<br>YAML / Claude<br>AI Agents</div>
@@ -268,7 +276,7 @@ auf Deutsch, Englisch und Chinesisch.</p>
         <p class="proj-desc">Standalone agent repo modeled after agency-agents, covering 8 engineering divisions and ~25 specialist agents for v1. References Eurocode EN 1990-1999, AISC 360, ACI 318, ASCE 7. PR merged into the main agency-agents repo.</p>
         <div class="proj-tags"><span class="proj-tag">Claude Code</span><span class="proj-tag">YAML</span><span class="proj-tag">Eurocode</span><span class="proj-tag">AISC</span></div>
       </div>
-      <a class="proj-link" href="https://github.com/MeghanBao" target="_blank">GitHub ↗</a>
+      <a class="proj-link" href="https://github.com/MeghanBao/civil-engineering-agents" target="_blank">GitHub ↗</a>
     </div>
     <div class="project-item">
       <div class="proj-meta">2025<br>Elixir / OTP<br>Distributed</div>
@@ -277,7 +285,7 @@ auf Deutsch, Englisch und Chinesisch.</p>
         <p class="proj-desc">Verteilte KI-Agent-Workflow-Runtime auf dem BEAM. LangGraph + Temporal + Actor Model in Elixir/OTP. <em style="color:#aaa">Distributed AI runtime on BEAM · OTP GenServer · Phoenix Presence.</em></p>
         <div class="proj-tags"><span class="proj-tag">Elixir</span><span class="proj-tag">OTP</span><span class="proj-tag">GenServer</span><span class="proj-tag">Phoenix</span></div>
       </div>
-      <a class="proj-link" href="https://github.com/MeghanBao" target="_blank">GitHub ↗</a>
+      <a class="proj-link" href="https://github.com/MeghanBao/Loom" target="_blank">GitHub ↗</a>
     </div>
     <div class="project-item">
       <div class="proj-meta">2025<br>Python<br>Medical AI</div>
@@ -286,7 +294,7 @@ auf Deutsch, Englisch und Chinesisch.</p>
         <p class="proj-desc">Erster autoresearch-Fork für medizinische Bildgebung (MedMNIST+/ChestMNIST). 10 echte Experimente auf Colab T4. Ergebnis: Auflösung 28→64px = einzige akzeptierte Verbesserung (+0,0165 AUC). <em style="color:#aaa">Medical imaging autoML · 10 real experiments · +0.0165 AUC.</em></p>
         <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">PyTorch</span><span class="proj-tag">MedMNIST</span><span class="proj-tag">Colab</span></div>
       </div>
-      <a class="proj-link" href="https://huggingface.co/Meghan0606" target="_blank">HF ↗</a>
+      <a class="proj-link" href="https://github.com/MeghanBao/autoresearch-medical" target="_blank">GitHub ↗</a>
     </div>
   </div>
 </section>
@@ -396,7 +404,7 @@ auf Deutsch, Englisch und Chinesisch.</p>
     <div class="contact-details">
       <div class="contact-row">
         <span class="c-label">Email</span>
-        <span class="c-val"><a href="/cdn-cgi/l/email-protection#472a2229202f26292526287607202a262e2b6924282a"><span class="__cf_email__" data-cfemail="f69b9398919e9798949799c7b6919b979f9ad895999b">[email&#160;protected]</span></a></span>
+        <span class="c-val"><a href="mailto:menghanbao1@gmail.com">menghanbao1@gmail.com</a></span>
       </div>
       <div class="contact-row">
         <span class="c-label">Phone</span>
