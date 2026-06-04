@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat · Menghan Bao</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0d0d0d;
+    --white: #f9f8f6;
+    --gray: #8a8a8a;
+    --light: #e8e6e1;
+    --rule: #d8d6d1;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'EB Garamond', Georgia, serif; background: var(--white); color: var(--black); font-size: 18px; line-height: 1.7; height: 100dvh; display: flex; flex-direction: column; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 3rem; background: rgba(249,248,246,0.96); border-bottom: 1px solid var(--rule); flex-shrink: 0; }
+  .nav-id { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.12em; color: var(--gray); text-transform: uppercase; text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--gray); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--black); }
+
+  /* LAYOUT */
+  .chat-wrap { flex: 1; display: flex; flex-direction: column; max-width: 760px; width: 100%; margin: 0 auto; padding: 3rem 3rem 0; overflow: hidden; }
+
+  /* INTRO */
+  .chat-intro { padding-bottom: 2.5rem; border-bottom: 1px solid var(--rule); margin-bottom: 0; }
+  .chat-intro h1 { font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 400; letter-spacing: -0.01em; margin-bottom: 0.75rem; }
+  .chat-intro p { font-size: 0.95rem; color: var(--gray); line-height: 1.8; max-width: 560px; }
+  .chat-intro p + p { margin-top: 0.4rem; font-style: italic; font-size: 0.88rem; }
+
+  /* THREAD */
+  .chat-thread { flex: 1; overflow-y: auto; padding: 2rem 0 1rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .chat-thread:empty { flex: 1; }
+
+  .msg { display: flex; flex-direction: column; gap: 0.25rem; }
+  .msg-meta { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--gray); letter-spacing: 0.08em; text-transform: uppercase; }
+  .msg-body { font-size: 0.97rem; line-height: 1.75; }
+  .msg-body p + p { margin-top: 0.6em; }
+  .msg.user .msg-body { color: var(--black); }
+  .msg.agent .msg-body { color: #3a3a3a; }
+  .msg.agent .msg-meta { color: var(--gray); }
+
+  /* TYPING */
+  .typing-dot { display: inline-block; width: 6px; height: 6px; background: var(--gray); border-radius: 50%; animation: blink 1.2s infinite; }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
+
+  /* INPUT */
+  .chat-bottom { flex-shrink: 0; padding: 1rem 0 0; border-top: 1px solid var(--rule); }
+  .chat-input-row { display: flex; gap: 0.75rem; align-items: flex-end; }
+  textarea#input {
+    flex: 1;
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--rule);
+    padding: 0.5rem 0;
+    resize: none;
+    outline: none;
+    color: var(--black);
+    min-height: 2.5rem;
+    max-height: 9rem;
+    overflow-y: auto;
+    transition: border-color 0.2s;
+  }
+  textarea#input:focus { border-bottom-color: var(--black); }
+  textarea#input::placeholder { color: var(--gray); }
+  button#send {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border: 1px solid var(--black);
+    background: transparent;
+    color: var(--black);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  button#send:hover:not(:disabled) { background: var(--black); color: var(--white); }
+  button#send:disabled { border-color: var(--rule); color: var(--gray); cursor: default; }
+
+  .chat-disclaimer {
+    padding: 0.75rem 0 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+  .chat-disclaimer a { color: var(--gray); }
+  .chat-disclaimer a:hover { color: var(--black); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; } .nav-links { display: none; }
+    .chat-wrap { padding: 2rem 1.5rem 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-id" href="index.html">Menghan Bao — IT Freelancerin</a>
+  <div class="nav-links">
+    <a href="index.html#services">Leistungen / Services</a>
+    <a href="index.html#projects">Projekte / Projects</a>
+    <a href="index.html#experience">Erfahrung / Experience</a>
+    <a href="index.html#contact">Kontakt / Contact</a>
+    <a href="chat.html" class="active">Chat</a>
+  </div>
+</nav>
+
+<div class="chat-wrap">
+  <div class="chat-intro">
+    <h1>Ask me anything</h1>
+    <p>Menghans KI-Agent — ich bin mit ihrem Hintergrund, Projekten und Erfahrungen vertraut. Frag mich, ob sie zu deinem Vorhaben passt, welche Technologien sie einsetzt oder wie du sie erreichst.</p>
+    <p>I'm briefed on Menghan's background, case studies, and availability. I'll tell you what I know, admit what I don't, and offer to put you in touch when it matters.</p>
+  </div>
+
+  <div class="chat-thread" id="thread"></div>
+
+  <div class="chat-bottom">
+    <div class="chat-input-row">
+      <textarea id="input" rows="1" placeholder="Nachricht eingeben… / Type a message…"></textarea>
+      <button id="send">Send ↑</button>
+    </div>
+    <p class="chat-disclaimer">
+      Conversations may be reviewed to improve the agent. Don't share confidential information —
+      use <a href="mailto:menghanbao1@gmail.com">email</a> for sensitive matters.
+    </p>
+  </div>
+</div>
+
+<script>
+const ENDPOINT = '/.netlify/functions/chat';
+
+const thread = document.getElementById('thread');
+const input  = document.getElementById('input');
+const send   = document.getElementById('send');
+
+let messages = [];
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function markdownToHtml(text) {
+  // Minimal markdown: bold, line breaks, paragraphs
+  return text
+    .split(/\n{2,}/)
+    .map(para => '<p>' + para
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>')
+    + '</p>')
+    .join('');
+}
+
+function appendMessage(role, text) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.innerHTML = `
+    <span class="msg-meta">${role === 'user' ? 'You' : 'Menghan\'s AI'}</span>
+    <div class="msg-body">${markdownToHtml(escapeHtml(text).replace(/&lt;br&gt;/g,'<br>'))}</div>
+  `;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+  return div;
+}
+
+function appendTyping() {
+  const div = document.createElement('div');
+  div.className = 'msg agent';
+  div.id = 'typing';
+  div.innerHTML = `
+    <span class="msg-meta">Menghan's AI</span>
+    <div class="msg-body">
+      <span class="typing-dot"></span>
+      <span class="typing-dot"></span>
+      <span class="typing-dot"></span>
+    </div>
+  `;
+  thread.appendChild(div);
+  thread.scrollTop = thread.scrollHeight;
+}
+
+async function sendMessage() {
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  send.disabled = true;
+
+  messages.push({ role: 'user', content: text });
+  appendMessage('user', text);
+  appendTyping();
+
+  try {
+    const res = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages }),
+    });
+
+    const typing = document.getElementById('typing');
+    if (typing) typing.remove();
+
+    if (!res.ok) {
+      const err = await res.text();
+      appendMessage('agent', 'Sorry, something went wrong. Please try again or reach out directly at menghanbao1@gmail.com.');
+      console.error(err);
+    } else {
+      const data = await res.json();
+      const reply = data.content;
+      messages.push({ role: 'assistant', content: reply });
+      appendMessage('agent', reply);
+    }
+  } catch (e) {
+    const typing = document.getElementById('typing');
+    if (typing) typing.remove();
+    appendMessage('agent', 'Could not reach the server. Please check your connection or contact menghanbao1@gmail.com directly.');
+  }
+
+  send.disabled = false;
+  input.focus();
+}
+
+send.addEventListener('click', sendMessage);
+
+input.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+// Auto-resize textarea
+input.addEventListener('input', () => {
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 144) + 'px';
+});
+</script>
+</body>
+</html>
